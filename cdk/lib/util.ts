@@ -18,7 +18,7 @@ export const isDockerInstalled = (): boolean => {
 
 export const getPalworldServerConfig = (): PalworldEditionConfig => {
   const config = {
-    image: constants.JAVA_EDITION_DOCKER_IMAGE,
+    image: constants.DOCKER_IMAGE,
     port: 8211,
     protocol: Protocol.UDP,
     ingressRulePort: Port.udp(8211),

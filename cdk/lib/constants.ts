@@ -7,6 +7,5 @@ export const constants = {
   ECS_VOLUME_NAME: 'data',
   HOSTED_ZONE_SSM_PARAMETER: 'PalworldHostedZoneID',
   LAUNCHER_LAMBDA_ARN_SSM_PARAMETER: 'LauncherLambdaRoleArn',
-  JAVA_EDITION_DOCKER_IMAGE: 'itzg/palworld-server',
-  BEDROCK_EDITION_DOCKER_IMAGE: 'itzg/palworld-bedrock-server',
+  DOCKER_IMAGE: 'thijsvanloef/palworld-server-docker',
 }

@@ -122,8 +122,7 @@ export interface StackConfig {
   twilio: TwilioConfig;
   /**
    * Additional environment variables to be passed to the
-   * [Palworld Docker Server](https://github.com/itzg/docker-palworld-server/blob/master/README.md)
-   * [Palworld Bedrock Docker](https://github.com/itzg/docker-palworld-bedrock-server/blob/master/README.md)
+   * [Palworld Docker Server](https://github.com/thijsvanloef/palworld-server-docker?tab=readme-ov-file#environment-variables)
    *
    * @default '{ "EULA": "TRUE" }'
    */

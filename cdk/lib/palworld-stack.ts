@@ -111,9 +111,7 @@ export class PalworldStack extends Stack {
       }
     );
 
-    const palworldServerConfig = getPalworldServerConfig(
-      config.palworldEdition
-    );
+    const palworldServerConfig = getPalworldServerConfig();
 
     const palworldServerContainer = new ecs.ContainerDefinition(
       this,
