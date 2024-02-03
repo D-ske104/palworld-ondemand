@@ -2,7 +2,7 @@ import { Port } from 'aws-cdk-lib/aws-ec2';
 import { Protocol } from 'aws-cdk-lib/aws-ecs';
 import * as execa from 'execa';
 import { constants } from './constants';
-import { MinecraftEditionConfig, StackConfig } from './types';
+import { PalworldEditionConfig, StackConfig } from './types';
 
 export const stringAsBoolean = (str?: string): boolean =>
   Boolean(str === 'true');
@@ -16,9 +16,9 @@ export const isDockerInstalled = (): boolean => {
   }
 };
 
-export const getMinecraftServerConfig = (
-  edition: StackConfig['minecraftEdition']
-): MinecraftEditionConfig => {
+export const getPalworldServerConfig = (
+  edition: StackConfig['palworldEdition']
+): PalworldEditionConfig => {
   const javaConfig = {
     image: constants.JAVA_EDITION_DOCKER_IMAGE,
     port: 25565,

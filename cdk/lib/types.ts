@@ -26,9 +26,9 @@ interface TwilioConfig {
   authCode: string;
 }
 
-export type MinecraftImageEnv = Record<string, string>;
+export type PalworldImageEnv = Record<string, string>;
 
-export type MinecraftEdition = 'java' | 'bedrock';
+export type PalworldEdition = 'java' | 'bedrock';
 
 export interface StackConfig {
   /**
@@ -38,25 +38,25 @@ export interface StackConfig {
   domainName: string;
   /**
    * Name of the subdomain part to be used for creating a delegated hosted zone
-   * (minecraft.example.com) and an NS record on your existing (example.com)
+   * (palworld.example.com) and an NS record on your existing (example.com)
    * hosted zone. This subdomain should not already be in use.
    *
-   * @default "minecraft"
+   * @default "palworld"
    */
   subdomainPart: string;
   /**
-   * The AWS region to deploy your minecraft server in.
+   * The AWS region to deploy your palworld server in.
    *
    * @default "us-east-1"
    */
   serverRegion: string;
   /**
-   * Edition of Minecraft server to run. Accepted values are are `java` or `bedrock` for [Minecraft Java Docker] or
-   * [Minecraft Bedrock Docker], respectively.
+   * Edition of Palworld server to run. Accepted values are are `java` or `bedrock` for [Palworld Java Docker] or
+   * [Palworld Bedrock Docker], respectively.
    *
    * @default "java"
    */
-  minecraftEdition: MinecraftEdition;
+  palworldEdition: PalworldEdition;
   /**
    * Number of minutes to wait for a connection after starting before terminating (optional, default 10)
    *
@@ -84,7 +84,7 @@ export interface StackConfig {
    */
   useFargateSpot: boolean;
   /**
-   * The number of cpu units used by the task running the Minecraft server.
+   * The number of cpu units used by the task running the Palworld server.
    *
    * Valid values, which determines your range of valid values for the memory parameter:
    *
@@ -102,7 +102,7 @@ export interface StackConfig {
    */
   taskCpu: number;
   /**
-   * The amount (in MiB) of memory used by the task running the Minecraft server.
+   * The amount (in MiB) of memory used by the task running the Palworld server.
    *
    * 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB) - Available cpu values: 256 (.25 vCPU)
    *
@@ -125,41 +125,41 @@ export interface StackConfig {
    * The email address you would like to receive notifications at.
    *
    * If this value is specified, an SNS topic is created and you will receive
-   * email notifications each time the minecraft server is launched and ready.
+   * email notifications each time the palworld server is launched and ready.
    */
   snsEmailAddress: string;
   twilio: TwilioConfig;
   /**
    * Additional environment variables to be passed to the
-   * [Minecraft Docker Server](https://github.com/itzg/docker-minecraft-server/blob/master/README.md)
-   * [Minecraft Bedrock Docker](https://github.com/itzg/docker-minecraft-bedrock-server/blob/master/README.md)
+   * [Palworld Docker Server](https://github.com/itzg/docker-palworld-server/blob/master/README.md)
+   * [Palworld Bedrock Docker](https://github.com/itzg/docker-palworld-bedrock-server/blob/master/README.md)
    *
    * @default '{ "EULA": "TRUE" }'
    */
-  minecraftImageEnv: MinecraftImageEnv;
+  palworldImageEnv: PalworldImageEnv;
   /**
    * Setting to `true` enables debug mode.
    *
    * This will enable the following:
-   * - CloudWatch Logs for the `minecraft-server` ECS Container
-   * - CloudWatch Logs for the `minecraft-ecsfargate-watchdog` ECS Container
+   * - CloudWatch Logs for the `palworld-server` ECS Container
+   * - CloudWatch Logs for the `palworld-ecsfargate-watchdog` ECS Container
    */
   debug: boolean;
 }
 
-export interface MinecraftEditionConfig {
+export interface PalworldEditionConfig {
   /**
-   * Name of the docker image to pull for the Minecraft server
+   * Name of the docker image to pull for the Palworld server
    *
-   * @example 'itzg/minecraft-server'
+   * @example 'itzg/palworld-server'
    */
   image: string;
   /**
-   * Port number to run the Minecraft server on
+   * Port number to run the Palworld server on
    */
   port: number;
   /**
-   * Protocol for the Minecraft server
+   * Protocol for the Palworld server
    */
   protocol: Protocol;
   /**
