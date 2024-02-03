@@ -28,8 +28,6 @@ interface TwilioConfig {
 
 export type PalworldImageEnv = Record<string, string>;
 
-export type PalworldEdition = 'java' | 'bedrock';
-
 export interface StackConfig {
   /**
    * **Required**. Domain name of existing Route53 Hosted Zone
@@ -50,13 +48,6 @@ export interface StackConfig {
    * @default "us-east-1"
    */
   serverRegion: string;
-  /**
-   * Edition of Palworld server to run. Accepted values are are `java` or `bedrock` for [Palworld Java Docker] or
-   * [Palworld Bedrock Docker], respectively.
-   *
-   * @default "java"
-   */
-  palworldEdition: PalworldEdition;
   /**
    * Number of minutes to wait for a connection after starting before terminating (optional, default 10)
    *

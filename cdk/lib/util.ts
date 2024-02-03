@@ -16,22 +16,13 @@ export const isDockerInstalled = (): boolean => {
   }
 };
 
-export const getPalworldServerConfig = (
-  edition: StackConfig['palworldEdition']
-): PalworldEditionConfig => {
-  const javaConfig = {
+export const getPalworldServerConfig = (): PalworldEditionConfig => {
+  const config = {
     image: constants.JAVA_EDITION_DOCKER_IMAGE,
-    port: 25565,
-    protocol: Protocol.TCP,
-    ingressRulePort: Port.tcp(25565),
-  };
-
-  const bedrockConfig = {
-    image: constants.BEDROCK_EDITION_DOCKER_IMAGE,
-    port: 19132,
+    port: 8211,
     protocol: Protocol.UDP,
-    ingressRulePort: Port.udp(19132),
+    ingressRulePort: Port.udp(8211),
   };
 
-  return edition === 'java' ? javaConfig : bedrockConfig;
+  return config
 };
