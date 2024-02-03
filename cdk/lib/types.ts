@@ -141,7 +141,8 @@ export interface PalworldEditionConfig {
   /**
    * Name of the docker image to pull for the Palworld server
    *
-   * @example 'itzg/palworld-server'
+   * @example 'thijsvanloef/palworld-server-docker
+'
    */
   image: string;
   /**
