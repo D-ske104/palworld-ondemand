@@ -83,7 +83,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="7fUCFxRYZEfUaBJo4nLo-10" value="Minecraft&lt;br&gt;Multiplayer" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn2.iconfinder.com/data/icons/popular-games-1/50/minecraft_squircle-128.png" parent="1" vertex="1">
+        <mxCell id="7fUCFxRYZEfUaBJo4nLo-10" value="Minecraft&lt;br&gt;Multiplayer" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn2.iconfinder.com/data/icons/popular-games-1/50/palworld_squircle-128.png" parent="1" vertex="1">
           <mxGeometry x="230" y="142.5" width="55" height="55" as="geometry" />
         </mxCell>
         <mxCell id="7fUCFxRYZEfUaBJo4nLo-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="7fUCFxRYZEfUaBJo4nLo-13" target="7fUCFxRYZEfUaBJo4nLo-7" edge="1">

@@ -16,14 +16,14 @@ import { Construct } from 'constructs';
 import { constants } from './constants';
 import { SSMParameterReader } from './ssm-parameter-reader';
 import { StackConfig } from './types';
-import { getMinecraftServerConfig, isDockerInstalled } from './util';
+import { getPalworldServerConfig, isDockerInstalled } from './util';
 
-interface MinecraftStackProps extends StackProps {
+interface PalworldStackProps extends StackProps {
   config: Readonly<StackConfig>;
 }
 
-export class MinecraftStack extends Stack {
-  constructor(scope: Construct, id: string, props: MinecraftStackProps) {
+export class PalworldStack extends Stack {
+  constructor(scope: Construct, id: string, props: PalworldStackProps) {
     super(scope, id, props);
 
     const { config } = props;
@@ -42,7 +42,7 @@ export class MinecraftStack extends Stack {
 
     const accessPoint = new efs.AccessPoint(this, 'AccessPoint', {
       fileSystem,
-      path: '/minecraft',
+      path: '/palworld',
       posixUser: {
         uid: '1000',
         gid: '1000',
@@ -76,7 +76,7 @@ export class MinecraftStack extends Stack {
 
     const ecsTaskRole = new iam.Role(this, 'TaskRole', {
       assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
-      description: 'Minecraft ECS task role',
+      description: 'Palworld ECS task role',
     });
 
     efsReadWriteDataPolicy.attachToRole(ecsTaskRole);
@@ -111,24 +111,22 @@ export class MinecraftStack extends Stack {
       }
     );
 
-    const minecraftServerConfig = getMinecraftServerConfig(
-      config.minecraftEdition
-    );
+    const palworldServerConfig = getPalworldServerConfig();
 
-    const minecraftServerContainer = new ecs.ContainerDefinition(
+    const palworldServerContainer = new ecs.ContainerDefinition(
       this,
       'ServerContainer',
       {
         containerName: constants.MC_SERVER_CONTAINER_NAME,
-        image: ecs.ContainerImage.fromRegistry(minecraftServerConfig.image),
+        image: ecs.ContainerImage.fromRegistry(palworldServerConfig.image),
         portMappings: [
           {
-            containerPort: minecraftServerConfig.port,
-            hostPort: minecraftServerConfig.port,
-            protocol: minecraftServerConfig.protocol,
+            containerPort: palworldServerConfig.port,
+            hostPort: palworldServerConfig.port,
+            protocol: palworldServerConfig.protocol,
           },
         ],
-        environment: config.minecraftImageEnv,
+        environment: config.palworldImageEnv,
         essential: false,
         taskDefinition,
         logging: config.debug
@@ -140,7 +138,7 @@ export class MinecraftStack extends Stack {
       }
     );
 
-    minecraftServerContainer.addMountPoints({
+    palworldServerContainer.addMountPoints({
       containerPath: '/data',
       sourceVolume: constants.ECS_VOLUME_NAME,
       readOnly: false,
@@ -151,16 +149,16 @@ export class MinecraftStack extends Stack {
       'ServiceSecurityGroup',
       {
         vpc,
-        description: 'Security group for Minecraft on-demand',
+        description: 'Security group for Palworld on-demand',
       }
     );
 
     serviceSecurityGroup.addIngressRule(
       ec2.Peer.anyIpv4(),
-      minecraftServerConfig.ingressRulePort
+      palworldServerConfig.ingressRulePort
     );
 
-    const minecraftServerService = new ecs.FargateService(
+    const palworldServerService = new ecs.FargateService(
       this,
       'FargateService',
       {
@@ -185,7 +183,7 @@ export class MinecraftStack extends Stack {
 
     /* Allow access to EFS from Fargate service security group */
     fileSystem.connections.allowDefaultPortFrom(
-      minecraftServerService.connections
+      palworldServerService.connections
     );
 
     const hostedZoneId = new SSMParameterReader(
@@ -201,7 +199,7 @@ export class MinecraftStack extends Stack {
     /* Create SNS Topic if SNS_EMAIL is provided */
     if (config.snsEmailAddress) {
       const snsTopic = new sns.Topic(this, 'ServerSnsTopic', {
-        displayName: 'Minecraft Server Notifications',
+        displayName: 'Palworld Server Notifications',
       });
 
       snsTopic.grantPublish(ecsTaskRole);
@@ -225,10 +223,10 @@ export class MinecraftStack extends Stack {
         containerName: constants.WATCHDOG_SERVER_CONTAINER_NAME,
         image: isDockerInstalled()
           ? ecs.ContainerImage.fromAsset(
-              path.resolve(__dirname, '../../minecraft-ecsfargate-watchdog/')
+              path.resolve(__dirname, '../../palworld-ecsfargate-watchdog/')
             )
           : ecs.ContainerImage.fromRegistry(
-              'doctorray/minecraft-ecsfargate-watchdog'
+              'doctorray/palworld-ecsfargate-watchdog'
             ),
         essential: true,
         taskDefinition: taskDefinition,
@@ -261,8 +259,8 @@ export class MinecraftStack extends Stack {
           effect: iam.Effect.ALLOW,
           actions: ['ecs:*'],
           resources: [
-            minecraftServerService.serviceArn,
-            /* arn:aws:ecs:<region>:<account_number>:task/minecraft/* */
+            palworldServerService.serviceArn,
+            /* arn:aws:ecs:<region>:<account_number>:task/palworld/* */
             Arn.format(
               {
                 service: 'ecs',
@@ -304,7 +302,7 @@ export class MinecraftStack extends Stack {
 
     /**
      * This policy gives permission to our ECS task to update the A record
-     * associated with our minecraft server. Retrieve the hosted zone identifier
+     * associated with our palworld server. Retrieve the hosted zone identifier
      * from Route 53 and place it in the Resource line within this policy.
      */
     const iamRoute53Policy = new iam.Policy(this, 'IamRoute53Policy', {

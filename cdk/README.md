@@ -67,8 +67,8 @@ After you've launched your minecraft server the first time and you've waited for
 
 ## Additional Configuration
 
-Configuration values can all be passed in as environment variables or by using a 
-`.env` file created from [`.env.sample`](./.env.sample). 
+Configuration values can all be passed in as environment variables or by using a
+`.env` file created from [`.env.sample`](./.env.sample).
 
 **Note:** Environment variables will take precedence over configuration values
 set in `.env`.

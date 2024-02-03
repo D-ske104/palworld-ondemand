@@ -149,19 +149,19 @@ export class DomainStack extends Stack {
      */
     new ssm.StringParameter(this, 'HostedZoneParam', {
       allowedPattern: '.*',
-      description: 'Hosted zone ID for minecraft server',
+      description: 'Hosted zone ID for palworld server',
       parameterName: constants.HOSTED_ZONE_SSM_PARAMETER,
       stringValue: subdomainHostedZone.hostedZoneId,
     });
 
     /**
      * Add the ARN for the launcher lambda execution role to SSM so we can
-     * attach the policy for accessing the minecraft server after it has been
+     * attach the policy for accessing the palworld server after it has been
      * created.
      */
     new ssm.StringParameter(this, 'LauncherLambdaParam', {
       allowedPattern: '.*S.*',
-      description: 'Minecraft launcher execution role ARN',
+      description: 'Palworld launcher execution role ARN',
       parameterName: constants.LAUNCHER_LAMBDA_ARN_SSM_PARAMETER,
       stringValue: launcherLambda.role?.roleArn || '',
     });
