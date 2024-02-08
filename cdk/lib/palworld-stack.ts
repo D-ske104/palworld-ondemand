@@ -196,27 +196,41 @@ export class PalworldStack extends Stack {
     ).getParameterValue();
 
     let snsTopicArn = '';
-    /* Create SNS Topic if SNS_EMAIL is provided */
-    if (config.snsEmailAddress) {
+
+    /* Create SNS Topic if at least one of SNS_EMAIL and DISCORD_WEBHOOK_URL is provided */
+    if (config.snsEmailAddress || config.discord.webhookUrl) {
       const snsTopic = new sns.Topic(this, 'ServerSnsTopic', {
         displayName: 'Palworld Server Notifications',
       });
 
       snsTopic.grantPublish(ecsTaskRole);
 
-      const emailSubscription = new sns.Subscription(
-        this,
-        'EmailSubscription',
-        {
-          protocol: sns.SubscriptionProtocol.EMAIL,
-          topic: snsTopic,
-          endpoint: config.snsEmailAddress,
-        }
-      );
+      if (config.snsEmailAddress) {
+        new sns.Subscription(
+          this,
+          'EmailSubscription',
+          {
+            protocol: sns.SubscriptionProtocol.EMAIL,
+            topic: snsTopic,
+            endpoint: config.snsEmailAddress,
+          }
+        );
+      }
+      if (config.discord.webhookUrl) {
+        new sns.Subscription(
+          this,
+          'DiscordSubscription',
+          {
+            protocol: sns.SubscriptionProtocol.HTTPS,
+            topic: snsTopic,
+            endpoint: config.discord.webhookUrl,
+          }
+        );
+      }
       snsTopicArn = snsTopic.topicArn;
     }
 
-    const watchdogContainer = new ecs.ContainerDefinition(
+    new ecs.ContainerDefinition(
       this,
       'WatchDogContainer',
       {
