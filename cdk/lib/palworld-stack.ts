@@ -139,7 +139,7 @@ export class PalworldStack extends Stack {
     );
 
     palworldServerContainer.addMountPoints({
-      containerPath: '/data',
+      containerPath: '/palworld',
       sourceVolume: constants.ECS_VOLUME_NAME,
       readOnly: false,
     });
