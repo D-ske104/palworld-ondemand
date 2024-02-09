@@ -35,9 +35,6 @@ export const resolveConfig = (): StackConfig => ({
     process.env.PALWORLD_IMAGE_ENV_VARS_JSON
   ),
   snsEmailAddress: process.env.SNS_EMAIL_ADDRESS || '',
-  discord: {
-    webhookUrl: process.env.DISCORD_WEBHOOK_URL || '',
-  },
   twilio: {
     phoneFrom: process.env.TWILIO_PHONE_FROM || '',
     phoneTo: process.env.TWILIO_PHONE_TO || '',

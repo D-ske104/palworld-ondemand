@@ -1,16 +1,6 @@
 import type { Protocol } from 'aws-cdk-lib/aws-ecs';
 import type { Port } from 'aws-cdk-lib/aws-ec2';
 
-interface DiscordConfig {
-  /**
-   * Discord webhook URL
-   *
-   * @example
-   * `/webhooks/{webhook.id}/{webhook.token}`
-   */
-  webhookUrl: string;
-}
-
 interface TwilioConfig {
   /**
    * Your twilio phone number.
@@ -129,10 +119,6 @@ export interface StackConfig {
    * email notifications each time the palworld server is launched and ready.
    */
   snsEmailAddress: string;
-  /**
-   * Discord configuration
-   */
-  discord: DiscordConfig;
   twilio: TwilioConfig;
   /**
    * Additional environment variables to be passed to the

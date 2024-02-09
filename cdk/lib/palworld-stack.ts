@@ -197,8 +197,8 @@ export class PalworldStack extends Stack {
 
     let snsTopicArn = '';
 
-    /* Create SNS Topic if at least one of SNS_EMAIL and DISCORD_WEBHOOK_URL is provided */
-    if (config.snsEmailAddress || config.discord.webhookUrl) {
+    /* Create SNS Topic if SNS_EMAIL is provided */
+    if (config.snsEmailAddress) {
       const snsTopic = new sns.Topic(this, 'ServerSnsTopic', {
         displayName: 'Palworld Server Notifications',
       });
@@ -213,17 +213,6 @@ export class PalworldStack extends Stack {
             protocol: sns.SubscriptionProtocol.EMAIL,
             topic: snsTopic,
             endpoint: config.snsEmailAddress,
-          }
-        );
-      }
-      if (config.discord.webhookUrl) {
-        new sns.Subscription(
-          this,
-          'DiscordSubscription',
-          {
-            protocol: sns.SubscriptionProtocol.HTTPS,
-            topic: snsTopic,
-            endpoint: config.discord.webhookUrl,
           }
         );
       }
