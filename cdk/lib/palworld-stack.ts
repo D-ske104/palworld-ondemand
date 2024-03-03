@@ -196,6 +196,7 @@ export class PalworldStack extends Stack {
     ).getParameterValue();
 
     let snsTopicArn = '';
+
     /* Create SNS Topic if SNS_EMAIL is provided */
     if (config.snsEmailAddress) {
       const snsTopic = new sns.Topic(this, 'ServerSnsTopic', {
@@ -204,19 +205,21 @@ export class PalworldStack extends Stack {
 
       snsTopic.grantPublish(ecsTaskRole);
 
-      const emailSubscription = new sns.Subscription(
-        this,
-        'EmailSubscription',
-        {
-          protocol: sns.SubscriptionProtocol.EMAIL,
-          topic: snsTopic,
-          endpoint: config.snsEmailAddress,
-        }
-      );
+      if (config.snsEmailAddress) {
+        new sns.Subscription(
+          this,
+          'EmailSubscription',
+          {
+            protocol: sns.SubscriptionProtocol.EMAIL,
+            topic: snsTopic,
+            endpoint: config.snsEmailAddress,
+          }
+        );
+      }
       snsTopicArn = snsTopic.topicArn;
     }
 
-    const watchdogContainer = new ecs.ContainerDefinition(
+    new ecs.ContainerDefinition(
       this,
       'WatchDogContainer',
       {
